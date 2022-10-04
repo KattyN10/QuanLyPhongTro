@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLPHONGTRO" Class="QuanLiPhongTroDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-4EVUV28\MAYAO;Initial Catalog=QLPHONGTRO;Integrated Security=True" SettingsObjectName="QUANLIPHONGTRO.Properties.Settings" SettingsPropertyName="QLPHONGTROConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.HOADON" Member="HoaDons">
+    <Type Name="HoaDon">
+      <Column Name="MA" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MAHOPDONG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TIENDIEN" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="TIENNUOC" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="DICHVUKHAC" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="SOTIENPHAITRA" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="DATHANHTOAN" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Association Name="HopDong_HoaDon" Member="HopDong" Storage="_HOPDONG" ThisKey="MAHOPDONG" OtherKey="MA" Type="HopDong" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.HOPDONG" Member="HopDongs">
+    <Type Name="HopDong">
+      <Column Name="MA" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MAKHACHHANG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MAPHONG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TIENDATCOC" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="NGAYTHUE" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NGAYTRA" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Association Name="HopDong_HoaDon" Member="HoaDons" Storage="_HOADONs" ThisKey="MA" OtherKey="MAHOPDONG" Type="HoaDon" />
+      <Association Name="KhachHang_HopDong" Member="KhachHang" Storage="_KHACHHANG" ThisKey="MAKHACHHANG" OtherKey="MA" Type="KhachHang" IsForeignKey="true" />
+      <Association Name="Phong_HopDong" Member="Phong" Storage="_PHONG" ThisKey="MAPHONG" OtherKey="MA" Type="Phong" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.KHACHHANG" Member="KhachHangs">
+    <Type Name="KhachHang">
+      <Column Name="MA" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HOTENDEM" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="TEN" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="PHAI" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="CMND" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Column Name="SODT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="QUEQUAN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="HKTT" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="KhachHang_HopDong" Member="HopDongs" Storage="_HOPDONGs" ThisKey="MA" OtherKey="MAKHACHHANG" Type="HopDong" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LOAIPHONG" Member="LoaiPhongs">
+    <Type Name="LoaiPhong">
+      <Column Name="MA" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TENLOAIPHONG" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="DONGIA" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Association Name="LoaiPhong_Phong" Member="Phongs" Storage="_PHONGs" ThisKey="MA" OtherKey="MALOAIPHONG" Type="Phong" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PHONG" Member="Phongs">
+    <Type Name="Phong">
+      <Column Name="MA" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TENPHONG" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="MALOAIPHONG" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Phong_HopDong" Member="HopDongs" Storage="_HOPDONGs" ThisKey="MA" OtherKey="MAPHONG" Type="HopDong" />
+      <Association Name="Phong_TbPhong" Member="TbPhongs" Storage="_TBPHONGs" ThisKey="MA" OtherKey="MAPHONG" Type="TbPhong" />
+      <Association Name="LoaiPhong_Phong" Member="LoaiPhong" Storage="_LOAIPHONG" ThisKey="MALOAIPHONG" OtherKey="MA" Type="LoaiPhong" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TBPHONG" Member="TbPhongs">
+    <Type Name="TbPhong">
+      <Column Name="MAPHONG" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MATHIETBI" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Phong_TbPhong" Member="Phong" Storage="_PHONG" ThisKey="MAPHONG" OtherKey="MA" Type="Phong" IsForeignKey="true" />
+      <Association Name="ThietBi_TbPhong" Member="ThietBi" Storage="_THIETBI" ThisKey="MATHIETBI" OtherKey="MA" Type="ThietBi" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.THIETBI" Member="ThietBis">
+    <Type Name="ThietBi">
+      <Column Name="MA" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="TENTHIETBI" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Association Name="ThietBi_TbPhong" Member="TbPhongs" Storage="_TBPHONGs" ThisKey="MA" OtherKey="MATHIETBI" Type="TbPhong" />
+    </Type>
+  </Table>
+</Database>
